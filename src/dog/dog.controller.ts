@@ -1,6 +1,6 @@
-import { Controller, Get, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { DogService } from './dog.service';
-import type { Request, Response} from "express";
+import type { Request } from "express";
 
 @Controller('dog')
 export class DogController {
@@ -11,11 +11,16 @@ export class DogController {
       return this.dogService.getSound();
    }
 
-   @Get('introduce/:sen/')
-   public dogIntroduce(@Req() request: Request, @Res() response: Response) {
+   @Get('introduce/:sen')
+   public dogIntroduce(@Req() request: Request) {
       console.log("params:", request.params, request.query); 
       const result = this.dogService.dogIntroduce();
-      response.status(200).send(result);
+   }
+
+   @Post('edit')
+   public modifyDetail(@Body() body: any): string {
+      console.log("body:", body); 
+      return this.dogService.modifyDetail();
    }
 }
  
